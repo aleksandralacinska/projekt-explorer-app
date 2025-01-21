@@ -22,7 +22,18 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "themeColor": "#0066ff",
+      "backgroundColor": "#ffffff",
+      "manifest": {
+        "short_name": "Explorer",
+        "start_url": "/",
+        "display": "standalone",
+        "orientation": "portrait",
+        "scope": "/",
+        "theme_color": "#0066ff",
+        "background_color": "#ffffff"
+      }
     }
   }
 }
