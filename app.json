@@ -9,22 +9,39 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourname.explorerapp",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.yourname.explorerapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["ACCESS_FINE_LOCATION"],
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "themeColor": "#0066ff",
       "backgroundColor": "#ffffff",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "./assets/icon-512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ],
       "manifest": {
         "short_name": "Explorer",
         "start_url": "/",
