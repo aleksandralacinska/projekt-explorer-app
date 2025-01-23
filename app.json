@@ -12,6 +12,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "sdkVersion": "52.0.0",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yourname.explorerapp",
