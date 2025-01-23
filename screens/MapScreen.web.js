@@ -2,27 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import * as Location from "expo-location";
-
-const places = [
-  {
-    id: "1",
-    name: "Pałac Kultury i Nauki",
-    latitude: 52.23197596418862,
-    longitude: 21.006037913028386,
-  },
-  {
-    id: "2",
-    name: "Muzeum Narodowe",
-    latitude: 52.23220044580008,
-    longitude: 21.024148400653765,
-  },
-  {
-    id: "3",
-    name: "Łazienki Królewskie",
-    latitude: 52.21480474394637,
-    longitude: 21.032969199534218,
-  },
-];
+import { placesData } from "../data/placesData"; // Import miejsc
 
 export default function MapScreen() {
   const [coords, setCoords] = useState({ lat: 52.2297, lng: 21.0122 });
@@ -55,7 +35,7 @@ export default function MapScreen() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; OpenStreetMap contributors'
         />
-        {places.map((place) => (
+        {placesData.map((place) => (
           <Marker
             key={place.id}
             position={[place.latitude, place.longitude]}

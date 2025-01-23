@@ -1,26 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from "react-native";
-
-const places = [
-  {
-    id: "1",
-    name: "Muzeum Narodowe",
-    description: "Słynne muzeum w Warszawie.",
-    image: require("../assets/muzeum.png"),
-  },
-  {
-    id: "2",
-    name: "Łazienki Królewskie",
-    description: "Park i pałace w Warszawie.",
-    image: require("../assets/lazienki.png"),
-  },
-  {
-    id: "3",
-    name: "Pałac Kultury i Nauki",
-    description: "Ikoniczny budynek w centrum Warszawy.",
-    image: require("../assets/palac.png"),
-  },
-];
+import { placesData } from "../data/placesData"; // Import miejsc
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -28,7 +8,7 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.header}>Witaj w aplikacji Explorer!</Text>
       <Text style={styles.subHeader}>Kliknij miejsce, aby zobaczyć szczegóły:</Text>
       <FlatList
-        data={places}
+        data={placesData} // Użycie danych z pliku
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
