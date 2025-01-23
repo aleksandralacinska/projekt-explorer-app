@@ -49,10 +49,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 10,
     borderRadius: 8,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
+    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
     elevation: 3,
   },
   thumbnail: {

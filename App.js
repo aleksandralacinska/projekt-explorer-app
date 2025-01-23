@@ -1,11 +1,14 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AppProvider } from "./contexts/AppContext";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["props.pointerEvents is deprecated"]);
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -38,10 +41,9 @@ function MainTabs() {
 
 export default function App() {
   return (
-    <AppProvider>
+    <SafeAreaProvider>
       <NavigationContainer>
-        <Suspense fallback={<p>Ładowanie...</p>}>
-        <Stack.Navigator>
+          <Stack.Navigator>
           <Stack.Screen
             name="Powrót"
             component={MainTabs}
@@ -58,8 +60,7 @@ export default function App() {
             options={{ title: "Mapa miejsca" }}
           />
         </Stack.Navigator>
-        </Suspense>
       </NavigationContainer>
-    </AppProvider>
+    </SafeAreaProvider>
   );
 }

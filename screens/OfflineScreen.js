@@ -43,10 +43,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#fff",
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
     elevation: 3,
   },
   placeImage: {
