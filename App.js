@@ -41,18 +41,23 @@ export default function App() {
     <AppProvider>
       <NavigationContainer>
         <Suspense fallback={<p>Ładowanie...</p>}>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Powrót"
-              component={MainTabs}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Details"
-              component={DetailsScreen}
-              options={{ title: "Szczegóły miejsca" }}
-            />
-          </Stack.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Powrót"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Details"
+            component={DetailsScreen}
+            options={{ title: "Szczegóły miejsca" }}
+          />
+          <Stack.Screen
+            name="Mapa"
+            component={React.lazy(() => import("./screens/MapScreen"))}
+            options={{ title: "Mapa miejsca" }}
+          />
+        </Stack.Navigator>
         </Suspense>
       </NavigationContainer>
     </AppProvider>

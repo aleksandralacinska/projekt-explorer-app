@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
 import { AppContext } from "../contexts/AppContext";
 
-export default function DetailsScreen({ route }) {
+export default function DetailsScreen({ route, navigation }) {
   const { place } = route.params; // Odbieranie danych miejsca
   const { savedPlaces, addPlace, deletePlace } = useContext(AppContext);
 
@@ -15,6 +15,10 @@ export default function DetailsScreen({ route }) {
 
   const handleDeletePlace = () => {
     deletePlace(place.id); // Usunięcie miejsca z zapisanych
+  };
+
+  const handleShowOnMap = () => {
+    navigation.navigate("Mapa", { selectedPlace: place });
   };
 
   return (
@@ -35,6 +39,11 @@ export default function DetailsScreen({ route }) {
           color="#4CAF50" // Kolor zielony
         />
       )}
+      <Button
+        title="Pokaż na mapie"
+        onPress={handleShowOnMap}
+        color="#2196F3" // Kolor niebieski
+      />
     </View>
   );
 }
