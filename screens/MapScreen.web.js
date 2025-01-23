@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import * as Notifications from "expo-notifications";
-import * as Location from "expo-location";
+import { View, StyleSheet } from "react-native";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import * as Location from "expo-location";
 
-// Pamiętaj, by w `web/index.html` dodać styl do Leaflet:
-// <link
-//   rel="stylesheet"
-//   href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-// />
+const places = [
+  {
+    id: "1",
+    name: "Pałac Kultury i Nauki",
+    latitude: 52.23197596418862,
+    longitude: 21.006037913028386,
+  },
+  {
+    id: "2",
+    name: "Muzeum Narodowe",
+    latitude: 52.23220044580008,
+    longitude: 21.024148400653765,
+  },
+  {
+    id: "3",
+    name: "Łazienki Królewskie",
+    latitude: 52.21480474394637,
+    longitude: 21.032969199534218,
+  },
+];
 
 export default function MapScreen() {
   const [coords, setCoords] = useState({ lat: 52.2297, lng: 21.0122 });
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
-    // (Opcjonalnie) expo-location także działa na web, ale przeglądarka
-    // i tak poprosi o zezwolenie w inny sposób.
     (async () => {
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
@@ -23,18 +36,8 @@ export default function MapScreen() {
           const location = await Location.getCurrentPositionAsync({});
           const { latitude, longitude } = location.coords;
           setCoords({ lat: latitude, lng: longitude });
+          setUserLocation({ lat: latitude, lng: longitude });
         }
-
-        // (Opcjonalnie) lokalne powiadomienie na web jest ograniczone
-        // – expo-notifications wymaga dodatkowej konfiguracji (Web Push).
-        // Tu tylko przykład:
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: "Twoja lokalizacja",
-            body: `Lat: ${coords.lat.toFixed(2)}, Lng: ${coords.lng.toFixed(2)}`,
-          },
-          trigger: { seconds: 3 },
-        });
       } catch (error) {
         console.log("Location error:", error);
       }
@@ -52,16 +55,34 @@ export default function MapScreen() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; OpenStreetMap contributors'
         />
-        <Marker position={[coords.lat, coords.lng]}>
-          <Popup>Twoja lokalizacja</Popup>
-        </Marker>
+        {places.map((place) => (
+          <Marker
+            key={place.id}
+            position={[place.latitude, place.longitude]}
+          >
+            <Popup>{place.name}</Popup>
+          </Marker>
+        ))}
+        {userLocation && (
+          <Marker
+            position={[userLocation.lat, userLocation.lng]}
+            icon={
+              new L.Icon({
+                iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x-blue.png",
+                shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+              })
+            }
+          >
+            <Popup>Twoja lokalizacja</Popup>
+          </Marker>
+        )}
       </MapContainer>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 });

@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import * as Notifications from "expo-notifications";
 
-// (Opcjonalnie) konfiguracja powiadomień
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+const places = [
+  {
+    id: "1",
+    name: "Pałac Kultury i Nauki",
+    latitude: 52.23197596418862,
+    longitude: 21.006037913028386,
+  },
+  {
+    id: "2",
+    name: "Muzeum Narodowe",
+    latitude: 52.23220044580008,
+    longitude: 21.024148400653765,
+  },
+  {
+    id: "3",
+    name: "Łazienki Królewskie",
+    latitude: 52.21480474394637,
+    longitude: 21.032969199534218,
+  },
+];
 
 export default function MapScreen() {
   const [region, setRegion] = useState({
@@ -21,15 +32,15 @@ export default function MapScreen() {
     longitudeDelta: 0.05,
   });
 
+  const [userLocation, setUserLocation] = useState(null);
+
   useEffect(() => {
     (async () => {
-      // Uprawnienia do lokalizacji
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         alert("Brak dostępu do lokalizacji!");
         return;
       }
-
       const location = await Location.getCurrentPositionAsync({});
       setRegion({
         latitude: location.coords.latitude,
@@ -37,16 +48,9 @@ export default function MapScreen() {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       });
-
-      // Przykładowe powiadomienie lokalne:
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Twoja lokalizacja",
-          body: `Lat: ${location.coords.latitude.toFixed(
-            2
-          )}, Lng: ${location.coords.longitude.toFixed(2)}`,
-        },
-        trigger: { seconds: 3 },
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
       });
     })();
   }, []);
@@ -58,10 +62,20 @@ export default function MapScreen() {
         region={region}
         onRegionChangeComplete={setRegion}
       >
-        <Marker
-          coordinate={{ latitude: region.latitude, longitude: region.longitude }}
-          title="Moja lokalizacja"
-        />
+        {places.map((place) => (
+          <Marker
+            key={place.id}
+            coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+            title={place.name}
+          />
+        ))}
+        {userLocation && (
+          <Marker
+            coordinate={userLocation}
+            title="Twoja lokalizacja"
+            pinColor="blue" // Niebieski kolor znacznika
+          />
+        )}
       </MapView>
     </View>
   );

@@ -1,23 +1,45 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import * as Notifications from "expo-notifications";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from "react-native";
 
-const sendNotification = async () => {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Nowe wydarzenie!",
-      body: "Sprawdź, co dzieje się w Twojej okolicy.",
-    },
-    trigger: { seconds: 5 },
-  });
-};
+const places = [
+  {
+    id: "1",
+    name: "Muzeum Narodowe",
+    description: "Słynne muzeum w Warszawie.",
+    image: require("../assets/muzeum.png"),
+  },
+  {
+    id: "2",
+    name: "Łazienki Królewskie",
+    description: "Park i pałace w Warszawie.",
+    image: require("../assets/lazienki.png"),
+  },
+  {
+    id: "3",
+    name: "Pałac Kultury i Nauki",
+    description: "Ikoniczny budynek w centrum Warszawy.",
+    image: require("../assets/palac.png"),
+  },
+];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Witaj w aplikacji Explorer!</Text>
-      <Text style={styles.text}>Tutaj znajdziesz rekomendacje miejsc w pobliżu.</Text>
-      <Button title="Wyślij powiadomienie" onPress={sendNotification} />
+      <Text style={styles.header}>Witaj w aplikacji Explorer!</Text>
+      <Text style={styles.subHeader}>Kliknij miejsce, aby zobaczyć szczegóły:</Text>
+      <FlatList
+        data={places}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.placeItem}
+            onPress={() => navigation.navigate("Details", { place: item })}
+          >
+            <Image source={item.image} style={styles.thumbnail} />
+            <Text style={styles.placeText}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
@@ -25,13 +47,43 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 20,
     backgroundColor: "#f9f9f9",
   },
-  text: {
-    fontSize: 18,
-    color: "#333",
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  subHeader: {
+    fontSize: 16,
+    color: "#555",
     marginBottom: 20,
+    textAlign: "center",
+  },
+  placeItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  thumbnail: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    marginRight: 15,
+  },
+  placeText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
   },
 });

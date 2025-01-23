@@ -1,35 +1,60 @@
 import React, { Suspense } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import { AppProvider } from "./contexts/AppContext";
 import HomeScreen from "./screens/HomeScreen";
-
-// Lazy loading widoków
-const MapScreen = React.lazy(() => import("./screens/MapScreen"));
-const DetailsScreen = React.lazy(() => import("./screens/DetailsScreen"));
-const OfflineScreen = React.lazy(() => import("./screens/OfflineScreen"));
+import DetailsScreen from "./screens/DetailsScreen";
+import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-// Komponent ładowania
-function LoadingScreen() {
+function MainTabs() {
   return (
-    <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <p>Ładowanie...</p>
-    </div>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+          if (route.name === "Strona główna") {
+            iconName = "home-outline";
+          } else if (route.name === "Mapa") {
+            iconName = "map-outline";
+          } else if (route.name === "Zapisane") {
+            iconName = "bookmark-outline";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#4CAF50",
+        tabBarInactiveTintColor: "gray",
+      })}
+    >
+      <Tab.Screen name="Strona główna" component={HomeScreen} />
+      <Tab.Screen name="Mapa" component={React.lazy(() => import("./screens/MapScreen"))} />
+      <Tab.Screen name="Zapisane" component={React.lazy(() => import("./screens/OfflineScreen"))} />
+    </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Suspense fallback={<LoadingScreen />}>
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Map" component={MapScreen} />
-          <Tab.Screen name="Details" component={DetailsScreen} />
-          <Tab.Screen name="Offline" component={OfflineScreen} />
-        </Tab.Navigator>
-      </Suspense>
-    </NavigationContainer>
+    <AppProvider>
+      <NavigationContainer>
+        <Suspense fallback={<p>Ładowanie...</p>}>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Powrót"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Details"
+              component={DetailsScreen}
+              options={{ title: "Szczegóły miejsca" }}
+            />
+          </Stack.Navigator>
+        </Suspense>
+      </NavigationContainer>
+    </AppProvider>
   );
 }
