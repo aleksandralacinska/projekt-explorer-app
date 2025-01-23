@@ -1,27 +1,20 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getPlaces, savePlace, removePlace } from "../services/localDatabase";
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [savedPlaces, setSavedPlaces] = useState([]);
 
-  useEffect(() => {
-    const loadPlaces = async () => {
-      const places = await getPlaces();
-      setSavedPlaces(places);
-    };
-    loadPlaces();
-  }, []);
-
-  const addPlace = async (place) => {
-    const updatedPlaces = await savePlace(place);
-    setSavedPlaces(updatedPlaces);
+  const addPlace = (place) => {
+    if (!savedPlaces.some((savedPlace) => savedPlace.id === place.id)) {
+      setSavedPlaces((prevPlaces) => [...prevPlaces, place]);
+    }
   };
 
-  const deletePlace = async (placeId) => {
-    const updatedPlaces = await removePlace(placeId);
-    setSavedPlaces(updatedPlaces);
+  const deletePlace = (placeId) => {
+    setSavedPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== placeId)
+    );
   };
 
   return (

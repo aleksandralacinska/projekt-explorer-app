@@ -4,9 +4,18 @@ import { AppContext } from "../contexts/AppContext";
 
 export default function DetailsScreen({ route }) {
   const { place } = route.params; // Odbieranie danych miejsca
-  const { savedPlaces, savePlace, removePlace } = useContext(AppContext);
+  const { savedPlaces, addPlace, deletePlace } = useContext(AppContext);
 
+  // Sprawdzenie, czy miejsce jest zapisane
   const isSaved = savedPlaces.some((savedPlace) => savedPlace.id === place.id);
+
+  const handleSavePlace = () => {
+    addPlace(place); // Dodanie miejsca do zapisanych
+  };
+
+  const handleDeletePlace = () => {
+    deletePlace(place.id); // Usunięcie miejsca z zapisanych
+  };
 
   return (
     <View style={styles.container}>
@@ -16,13 +25,13 @@ export default function DetailsScreen({ route }) {
       {isSaved ? (
         <Button
           title="Usuń z zapisanych"
-          onPress={() => removePlace(place)}
+          onPress={handleDeletePlace}
           color="#FF6347" // Kolor czerwony
         />
       ) : (
         <Button
           title="Zapisz miejsce"
-          onPress={() => savePlace(place)}
+          onPress={handleSavePlace}
           color="#4CAF50" // Kolor zielony
         />
       )}
