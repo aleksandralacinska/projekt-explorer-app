@@ -5,10 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { LogBox } from "react-native";
-
-LogBox.ignoreLogs(["props.pointerEvents is deprecated"]);
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AppProvider } from "./contexts/AppContext"; // Import AppProvider
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -33,34 +31,42 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Strona główna" component={HomeScreen} />
-      <Tab.Screen name="Mapa" component={React.lazy(() => import("./screens/MapScreen"))} />
-      <Tab.Screen name="Zapisane" component={React.lazy(() => import("./screens/OfflineScreen"))} />
+      <Tab.Screen
+        name="Mapa"
+        component={React.lazy(() => import("./screens/MapScreen"))}
+      />
+      <Tab.Screen
+        name="Zapisane"
+        component={React.lazy(() => import("./screens/OfflineScreen"))}
+      />
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
+    <AppProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
           <Stack.Navigator>
-          <Stack.Screen
-            name="Powrót"
-            component={MainTabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Details"
-            component={DetailsScreen}
-            options={{ title: "Szczegóły miejsca" }}
-          />
-          <Stack.Screen
-            name="Mapa"
-            component={React.lazy(() => import("./screens/MapScreen"))}
-            options={{ title: "Mapa miejsca" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
+            <Stack.Screen
+              name="Powrót"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Details"
+              component={DetailsScreen}
+              options={{ title: "Szczegóły miejsca" }}
+            />
+            <Stack.Screen
+              name="Mapa"
+              component={React.lazy(() => import("./screens/MapScreen"))}
+              options={{ title: "Mapa miejsca" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </AppProvider>
   );
 }
