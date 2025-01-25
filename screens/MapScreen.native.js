@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
@@ -23,6 +23,8 @@ const places = [
     longitude: 21.032969199534218,
   },
 ];
+
+const { width, height } = Dimensions.get("window");
 
 export default function MapScreen({ route }) {
   const { selectedPlace } = route.params || {};
@@ -67,11 +69,7 @@ export default function MapScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        region={region}
-        onRegionChangeComplete={setRegion}
-      >
+      <MapView style={styles.map} region={region} onRegionChangeComplete={setRegion}>
         {places.map((place) => (
           <Marker
             key={place.id}
@@ -102,6 +100,12 @@ export default function MapScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  map: { flex: 1 },
+  container: {
+    flex: 1,
+  },
+  // Zwiększamy wysokość mapy na większych ekranach
+  map: {
+    width: "100%",
+    height: height > 700 ? height : 400,
+  },
 });

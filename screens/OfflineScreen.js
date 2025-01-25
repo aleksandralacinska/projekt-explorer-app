@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions } from "react-native";
 import { AppContext } from "../contexts/AppContext";
+
+const { width } = Dimensions.get("window");
 
 export default function OfflineScreen({ navigation }) {
   const { savedPlaces } = useContext(AppContext);
@@ -33,31 +35,31 @@ export default function OfflineScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: width > 600 ? 40 : 20,
     backgroundColor: "#f9f9f9",
   },
   placeContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
-    padding: 10,
+    padding: width > 600 ? 20 : 10,
     backgroundColor: "#fff",
     borderRadius: 10,
     boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
     elevation: 3,
   },
   placeImage: {
-    width: 50,
-    height: 50,
+    width: width > 600 ? 70 : 50,
+    height: width > 600 ? 70 : 50,
     borderRadius: 25,
     marginRight: 10,
   },
   placeName: {
-    fontSize: 16,
+    fontSize: width > 600 ? 20 : 16,
     fontWeight: "bold",
   },
   emptyText: {
-    fontSize: 18,
+    fontSize: width > 600 ? 22 : 18,
     color: "#888",
     textAlign: "center",
     marginTop: 20,

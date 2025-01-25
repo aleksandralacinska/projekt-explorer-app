@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
+import { View, Text, StyleSheet, Image, Button, Dimensions } from "react-native";
 import { AppContext } from "../contexts/AppContext";
+
+const { width, height } = Dimensions.get("window"); // Pobieramy wymiary ekranu
 
 export default function DetailsScreen({ route, navigation }) {
   const { place } = route.params; // Odbieranie danych miejsca
@@ -51,23 +53,23 @@ export default function DetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: width > 600 ? 40 : 20, // Większy padding na szerszych ekranach
     backgroundColor: "#f9f9f9",
   },
   image: {
     width: "100%",
-    height: 200,
+    height: height > 700 ? 300 : 200, // Zwiększamy height na ekranach > 700px
     borderRadius: 10,
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: width > 600 ? 28 : 24, // Zmiana rozmiaru czcionki przy > 600px
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
   },
   description: {
-    fontSize: 16,
+    fontSize: width > 600 ? 18 : 16,
     color: "#555",
     marginBottom: 20,
     textAlign: "center",

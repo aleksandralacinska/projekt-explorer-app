@@ -6,3 +6,9 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[plugins]]
+package = "@netlify/plugin-copy"
+[plugins.inputs]
+source = "service-worker.js"
+destination = "web-build/service-worker.js"

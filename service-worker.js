@@ -7,6 +7,10 @@ const urlsToCache = [
   "/assets/icon-512.png",
   "/static/js/bundle.js",
 ];
+const dynamicUrlsToCache = [
+    "/api/saved-places",
+    "/assets/map-tiles/",
+];
 
 // Instalowanie Service Workera
 self.addEventListener("install", (event) => {

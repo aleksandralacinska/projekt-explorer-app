@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import * as Location from "expo-location";
-import { placesData } from "../data/placesData"; // Import miejsc
+import { placesData } from "../data/placesData";
 
-export default function MapScreen() {
+const { width, height } = Dimensions.get("window");
+
+export default function MapScreen({ route }) {
   const [coords, setCoords] = useState({ lat: 52.2297, lng: 21.0122 });
   const [userLocation, setUserLocation] = useState(null);
 
@@ -29,17 +31,17 @@ export default function MapScreen() {
       <MapContainer
         center={[coords.lat, coords.lng]}
         zoom={13}
-        style={{ height: "100%", width: "100%" }}
+        style={{
+          height: height > 700 ? height : 400,
+          width: width > 800 ? 800 : "100%",
+        }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; OpenStreetMap contributors'
         />
         {placesData.map((place) => (
-          <Marker
-            key={place.id}
-            position={[place.latitude, place.longitude]}
-          >
+          <Marker key={place.id} position={[place.latitude, place.longitude]}>
             <Popup>{place.name}</Popup>
           </Marker>
         ))}
@@ -48,8 +50,10 @@ export default function MapScreen() {
             position={[userLocation.lat, userLocation.lng]}
             icon={
               new L.Icon({
-                iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x-blue.png",
-                shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+                iconUrl:
+                  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x-blue.png",
+                shadowUrl:
+                  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
               })
@@ -64,5 +68,7 @@ export default function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+  },
 });
