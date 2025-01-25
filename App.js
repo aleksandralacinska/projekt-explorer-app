@@ -14,7 +14,7 @@ import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import { LogBox } from "react-native";
 
-LogBox.ignoreLogs(["props.pointerEvents is deprecated"]); // Ignorowanie przestarzałego ostrzeżenia
+LogBox.ignoreLogs(["props.pointerEvents is deprecated"]);
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
