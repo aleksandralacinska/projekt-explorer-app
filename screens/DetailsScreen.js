@@ -4,7 +4,7 @@ import { AppContext } from "../contexts/AppContext";
 
 export default function DetailsScreen({ route, navigation }) {
   const { place } = route.params; // Odbieranie danych miejsca
-  const { savedPlaces, addPlace, deletePlace } = useContext(AppContext);
+  const { savedPlaces = [], addPlace, deletePlace } = useContext(AppContext);
 
   // Sprawdzenie, czy miejsce jest zapisane
   const isSaved = savedPlaces.some((savedPlace) => savedPlace.id === place.id);
