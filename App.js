@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,12 +9,22 @@ import OfflineScreen from "./screens/OfflineScreen";
 import { AppProvider } from "./contexts/AppContext";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as Notifications from "expo-notifications";
 import { LogBox } from "react-native";
 
 LogBox.ignoreLogs(["props.pointerEvents is deprecated"]); // Ignorowanie przestarzałego ostrzeżenia
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+// Konfiguracja powiadomień
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 function MainTabs() {
   return (
@@ -65,6 +75,16 @@ function AppNavigator() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const requestPermissions = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("Brak dostępu do powiadomień!");
+      }
+    };
+    requestPermissions();
+  }, []);
+
   return (
     <AppProvider>
       <SafeAreaProvider>
