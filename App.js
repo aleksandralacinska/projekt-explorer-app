@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Alert, View, Text, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,6 +11,7 @@ import { AppProvider } from "./contexts/AppContext";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Notifications from "expo-notifications";
+import NetInfo from "@react-native-community/netinfo";
 import { LogBox } from "react-native";
 
 LogBox.ignoreLogs(["props.pointerEvents is deprecated"]); // Ignorowanie przestarzałego ostrzeżenia
@@ -75,7 +77,19 @@ function AppNavigator() {
 }
 
 export default function App() {
+  const [isConnected, setIsConnected] = useState(true);
+
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+      if (!state.isConnected) {
+        Alert.alert(
+          "Brak połączenia",
+          "Jesteś offline. Niektóre funkcje mogą być niedostępne."
+        );
+      }
+    });
+
     const requestPermissions = async () => {
       const { status } = await Notifications.requestPermissionsAsync();
       if (status !== "granted") {
@@ -83,15 +97,34 @@ export default function App() {
       }
     };
     requestPermissions();
+
+    return () => unsubscribe();
   }, []);
 
   return (
     <AppProvider>
       <SafeAreaProvider>
         <NavigationContainer>
+          {!isConnected && (
+            <View style={styles.offlineBanner}>
+              <Text style={styles.offlineText}>Tryb offline</Text>
+            </View>
+          )}
           <AppNavigator />
         </NavigationContainer>
       </SafeAreaProvider>
     </AppProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  offlineBanner: {
+    backgroundColor: "#FF6347",
+    padding: 10,
+    alignItems: "center",
+  },
+  offlineText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+});
