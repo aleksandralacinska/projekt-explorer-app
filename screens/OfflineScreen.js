@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions } from "react-native";
-import { AppContext } from "../contexts/AppContext";
+import { useSavedPlaces } from "../contexts/SavedPlacesContext";
+
 
 const { width } = Dimensions.get("window");
 
 export default function OfflineScreen({ navigation }) {
-  const { savedPlaces } = useContext(AppContext);
+  const { savedPlaces } = useSavedPlaces();
 
   const renderPlace = ({ item }) => (
     <TouchableOpacity

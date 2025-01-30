@@ -7,7 +7,7 @@ import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import MapScreen from "./screens/MapScreen";
 import OfflineScreen from "./screens/OfflineScreen";
-import { AppProvider } from "./contexts/AppContext";
+import { SavedPlacesProvider } from "./contexts/SavedPlacesContext"; // Nowy kontekst
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as Notifications from "expo-notifications";
@@ -29,6 +29,7 @@ Notifications.setNotificationHandler({
 });
 
 function MainTabs() {
+  console.log("Renderuje MainTabs");
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -55,6 +56,7 @@ function MainTabs() {
 }
 
 function AppNavigator() {
+  console.log("Renderuje AppNavigator");
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -75,6 +77,8 @@ function AppNavigator() {
     </Stack.Navigator>
   );
 }
+
+
 
 export default function App() {
   const [isConnected, setIsConnected] = useState(true);
@@ -102,7 +106,7 @@ export default function App() {
   }, []);
 
   return (
-    <AppProvider>
+    <SavedPlacesProvider>
       <SafeAreaProvider>
         <NavigationContainer>
           {!isConnected && (
@@ -113,7 +117,7 @@ export default function App() {
           <AppNavigator />
         </NavigationContainer>
       </SafeAreaProvider>
-    </AppProvider>
+    </SavedPlacesProvider>
   );
 }
 
