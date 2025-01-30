@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions } from "react-native";
 import { useSavedPlaces } from "../contexts/SavedPlacesContext";
-
 
 const { width } = Dimensions.get("window");
 
 export default function OfflineScreen({ navigation }) {
   const { savedPlaces } = useSavedPlaces();
+
+  // Sprawdzenie, czy zapisane miejsca mają poprawne ID
+  console.log("Zapisane miejsca:", savedPlaces);
 
   const renderPlace = ({ item }) => (
     <TouchableOpacity
@@ -21,9 +23,9 @@ export default function OfflineScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {savedPlaces.length > 0 ? (
-        <FlatList
+          <FlatList
           data={savedPlaces}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()} 
           renderItem={renderPlace}
         />
       ) : (
@@ -46,7 +48,6 @@ const styles = StyleSheet.create({
     padding: width > 600 ? 20 : 10,
     backgroundColor: "#fff",
     borderRadius: 10,
-    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
     elevation: 3,
   },
   placeImage: {

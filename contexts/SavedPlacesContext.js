@@ -18,7 +18,11 @@ export const SavedPlacesProvider = ({ children }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        setSavedPlaces(places);
+  
+        // Usuń duplikaty na podstawie ID
+        const uniquePlaces = Array.from(new Map(places.map((item) => [item.id, item])).values());
+  
+        setSavedPlaces(uniquePlaces);
       } catch (error) {
         console.error("Błąd pobierania miejsc:", error);
       }
@@ -28,9 +32,19 @@ export const SavedPlacesProvider = ({ children }) => {
 
   const addPlace = async (place) => {
     try {
+      // Sprawdzenie, czy miejsce już istnieje w zapisanych
+      const isDuplicate = savedPlaces.some((p) => p.id === place.id);
+      if (isDuplicate) {
+        console.log("To miejsce już jest zapisane:", place);
+        return;
+      }
+  
+      // Dodaj miejsce do Firestore
       const docRef = await addDoc(collection(db, "savedPlaces"), place);
+      
       setSavedPlaces((prevPlaces) => [...prevPlaces, { id: docRef.id, ...place }]);
-
+  
+      // Zapisz w AsyncStorage
       await AsyncStorage.setItem("savedPlaces", JSON.stringify([...savedPlaces, place]));
     } catch (error) {
       console.error("Błąd dodawania miejsca:", error);
