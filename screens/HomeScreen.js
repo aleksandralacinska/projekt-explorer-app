@@ -1,27 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Dimensions } from "react-native";
-import { placesData } from "../data/placesData"; // Import miejsc
+import { placesData } from "../data/placesData";
+import NetInfo from "@react-native-community/netinfo"; // Import NetInfo
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export default function HomeScreen({ navigation }) {
+  const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Witaj w aplikacji Explorer!</Text>
-      <Text style={styles.subHeader}>Kliknij miejsce, aby zobaczyć szczegóły:</Text>
-      <FlatList
-        data={placesData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.placeItem}
-            onPress={() => navigation.navigate("Details", { place: item })}
-          >
-            <Image source={{ uri: item.image }} style={styles.thumbnail} />
-            <Text style={styles.placeText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <Text style={styles.subHeader}>
+        {isConnected ? "Kliknij miejsce, aby zobaczyć szczegóły:" : "Brak połączenia – lista miejsc niedostępna"}
+      </Text>
+
+      {isConnected ? (
+        <FlatList
+          data={placesData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.placeItem}
+              onPress={() => navigation.navigate("Details", { place: item })}
+            >
+              <Image source={item.image} style={styles.thumbnail} />
+              <Text style={styles.placeText}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <Text style={styles.offlineText}>Przełącz się na tryb online, aby zobaczyć dostępne miejsca.</Text>
+      )}
     </View>
   );
 }
@@ -29,7 +47,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: width > 600 ? 40 : 20, // Większy padding na desktop/tablet
+    padding: width > 600 ? 40 : 20,
     backgroundColor: "#f9f9f9",
   },
   header: {
@@ -43,6 +61,12 @@ const styles = StyleSheet.create({
     color: "#555",
     marginBottom: 20,
     textAlign: "center",
+  },
+  offlineText: {
+    fontSize: 18,
+    color: "#888",
+    textAlign: "center",
+    marginTop: 20,
   },
   placeItem: {
     flexDirection: "row",
