@@ -3,8 +3,8 @@
   publish = "web-build"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/web/service-worker.js"
+  to = "/service-worker.js"
   status = 200
 
 [[plugins]]

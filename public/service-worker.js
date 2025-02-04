@@ -3,9 +3,6 @@ const urlsToCache = [
   "/",
   "/index.html",
   "/favicon.ico",
-  "/assets/icon-192.png",
-  "/assets/icon-512.png",
-  "/static/js/bundle.js",
 ];
 const dynamicUrlsToCache = [
     "/api/saved-places",
