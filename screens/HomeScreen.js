@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Dimensions } from "react-native";
 import { placesData } from "../data/placesData";
-import NetInfo from "@react-native-community/netinfo"; // Import NetInfo
+import NetInfo from "@react-native-community/netinfo";
 
 const { width } = Dimensions.get("window");
 
@@ -12,7 +12,6 @@ export default function HomeScreen({ navigation }) {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -32,7 +31,7 @@ export default function HomeScreen({ navigation }) {
               style={styles.placeItem}
               onPress={() => navigation.navigate("Details", { place: item })}
             >
-              <Image source={item.image} style={styles.thumbnail} />
+              <Image source={{ uri: item.image }} style={styles.thumbnail} />
               <Text style={styles.placeText}>{item.name}</Text>
             </TouchableOpacity>
           )}
