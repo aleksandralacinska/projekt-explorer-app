@@ -1,15 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    />
-    <title>Explorer Web</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#0066ff" />
+    <meta name="description" content="Explorer App - Aplikacja do odkrywania miejsc" />
+
+    <!-- Ikony aplikacji -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <title>Explorer App</title>
+
+    <!-- Leaflet CSS dla mapy -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log("✅ Service Worker zarejestrowany:", registration);
+            })
+            .catch((error) => {
+              console.error("❌ Rejestracja Service Workera nie powiodła się:", error);
+            });
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <script src="/static/js/bundle.js"></script>
   </body>
 </html>
