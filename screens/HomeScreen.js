@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
             style={styles.placeItem}
             onPress={() => navigation.navigate("Details", { place: item })}
           >
-            <Image source={item.image} style={styles.thumbnail} />
+            <Image source={{ uri: item.image }} style={styles.thumbnail} />
             <Text style={styles.placeText}>{item.name}</Text>
           </TouchableOpacity>
         )}
@@ -51,7 +51,10 @@ const styles = StyleSheet.create({
     padding: width > 600 ? 20 : 15,
     marginBottom: 10,
     borderRadius: 8,
-    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
     elevation: 3,
   },
   thumbnail: {
