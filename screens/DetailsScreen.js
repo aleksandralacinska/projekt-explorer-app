@@ -24,7 +24,7 @@ export default function DetailsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: place.image }} style={styles.image} />
+      <Image source={{ uri: place.image }} style={styles.image} resizeMode="contain"/>
       <Text style={styles.title}>{place.name}</Text>
       <Text style={styles.description}>{place.description}</Text>
       {isSaved ? (
