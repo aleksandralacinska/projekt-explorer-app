@@ -1,26 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, Button, Dimensions } from "react-native";
-import { useSavedPlaces } from "../contexts/SavedPlacesContext"; // Nowy kontekst
+import { AppContext } from "../contexts/AppContext";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window"); // Pobieramy wymiary ekranu
 
 export default function DetailsScreen({ route, navigation }) {
   const { place } = route.params; // Odbieranie danych miejsca
-  const { savedPlaces, addPlace, removePlace } = useSavedPlaces(); // Nowe metody
+  const { savedPlaces = [], addPlace, deletePlace } = useContext(AppContext);
 
-  // Sprawdzenie, czy miejsce jest już zapisane w Firestore
+  // Sprawdzenie, czy miejsce jest zapisane
   const isSaved = savedPlaces.some((savedPlace) => savedPlace.id === place.id);
 
   const handleSavePlace = () => {
-    if (!isSaved) {
-      addPlace(place); // Dodanie miejsca do Firestore
-    }
+    addPlace(place); // Dodanie miejsca do zapisanych
   };
 
   const handleDeletePlace = () => {
-    if (isSaved) {
-      removePlace(place.id); // Usunięcie miejsca z Firestore
-    }
+    deletePlace(place.id); // Usunięcie miejsca z zapisanych
   };
 
   const handleShowOnMap = () => {
@@ -32,25 +28,23 @@ export default function DetailsScreen({ route, navigation }) {
       <Image source={place.image} style={styles.image} />
       <Text style={styles.title}>{place.name}</Text>
       <Text style={styles.description}>{place.description}</Text>
-
       {isSaved ? (
         <Button
           title="Usuń z zapisanych"
           onPress={handleDeletePlace}
-          color="#FF6347" // Czerwony kolor dla usunięcia
+          color="#FF6347" // Kolor czerwony
         />
       ) : (
         <Button
           title="Zapisz miejsce"
           onPress={handleSavePlace}
-          color="#4CAF50" // Zielony kolor dla dodania
+          color="#4CAF50" // Kolor zielony
         />
       )}
-
       <Button
         title="Pokaż na mapie"
         onPress={handleShowOnMap}
-        color="#2196F3" // Niebieski kolor dla nawigacji do mapy
+        color="#2196F3" // Kolor niebieski
       />
     </View>
   );
@@ -59,17 +53,17 @@ export default function DetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: width > 600 ? 40 : 20,
+    padding: width > 600 ? 40 : 20, // Większy padding na szerszych ekranach
     backgroundColor: "#f9f9f9",
   },
   image: {
     width: "100%",
-    height: height > 700 ? 300 : 200,
+    height: height > 700 ? 300 : 200, // Zwiększamy height na ekranach > 700px
     borderRadius: 10,
     marginBottom: 20,
   },
   title: {
-    fontSize: width > 600 ? 28 : 24,
+    fontSize: width > 600 ? 28 : 24, // Zmiana rozmiaru czcionki przy > 600px
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
