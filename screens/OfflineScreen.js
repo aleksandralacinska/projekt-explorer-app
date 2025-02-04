@@ -12,7 +12,7 @@ export default function OfflineScreen({ navigation }) {
       style={styles.placeContainer}
       onPress={() => navigation.navigate("Details", { place: item })}
     >
-      <Image source={item.image} style={styles.placeImage} />
+      <Image source={{ uri: item.image }} style={styles.placeImage} />
       <Text style={styles.placeName}>{item.name}</Text>
     </TouchableOpacity>
   );
