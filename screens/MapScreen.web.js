@@ -8,13 +8,12 @@ import { placesData } from "../data/placesData";
 
 const { width, height } = Dimensions.get("window");
 
-// Poprawiona ikona Leaflet – pobierana lokalnie, aby uniknąć błędu 404
 const customIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-  iconSize: [25, 41], // Domyślny rozmiar ikony
-  iconAnchor: [12, 41], // Punkt zaczepienia
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
 });
 
 export default function MapScreen({ route }) {
@@ -57,7 +56,7 @@ export default function MapScreen({ route }) {
           <Marker
             key={place.id}
             position={[place.latitude, place.longitude]}
-            icon={customIcon} // Używa poprawnej ikony
+            icon={customIcon}
           >
             <Popup>{place.name}</Popup>
           </Marker>
