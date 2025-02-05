@@ -4,11 +4,11 @@
     "slug": "explorer-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assety/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assety/splash-icon.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -24,24 +24,24 @@
     "android": {
       "package": "com.yourname.explorerapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assety/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["ACCESS_FINE_LOCATION"],
       "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assety/favicon.png",
       "themeColor": "#0066ff",
       "backgroundColor": "#ffffff",
       "icons": [
         {
-          "src": "./assets/icon-192.png",
+          "src": "./assety/explorer-192.png",
           "sizes": "192x192",
           "type": "image/png"
         },
         {
-          "src": "./assets/icon-512.png",
+          "src": "./assety/explorer-512.png",
           "sizes": "512x512",
           "type": "image/png"
         }

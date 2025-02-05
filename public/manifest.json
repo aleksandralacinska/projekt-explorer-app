@@ -1,0 +1,26 @@
+{
+    "name": "Explorer App",
+    "short_name": "Explorer",
+    "description": "Aplikacja do odkrywania miejsc!",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "background_color": "#ffffff",
+    "theme_color": "#0066ff",
+    "icons": [
+      {
+        "src": "assety/explorer-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "assety/explorer-512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      }
+    ]
+  }
+  
