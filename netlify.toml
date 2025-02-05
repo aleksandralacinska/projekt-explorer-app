@@ -6,9 +6,3 @@
   from = "/web/service-worker.js"
   to = "/service-worker.js"
   status = 200
-
-[[plugins]]
-package = "@netlify/plugin-copy"
-[plugins.inputs]
-source = "service-worker.js"
-destination = "web-build/service-worker.js"
