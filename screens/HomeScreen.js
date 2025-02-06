@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Dimensions }
 import { placesData } from "../data/placesData";
 import NetInfo from "@react-native-community/netinfo";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen({ navigation }) {
   const [isConnected, setIsConnected] = useState(true);
@@ -16,30 +16,33 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Witaj w aplikacji Explorer!</Text>
-      <Text style={styles.subHeader}>
-        {isConnected ? "Kliknij miejsce, aby zobaczyć szczegóły:" : "Brak połączenia – lista miejsc niedostępna"}
-      </Text>
+      <View style={styles.container}>
+        <Text style={styles.header}>Witaj w aplikacji Explorer!</Text>
+        <Text style={styles.subHeader}>
+          {isConnected ? "Kliknij miejsce, aby zobaczyć szczegóły:" : "Brak połączenia – lista miejsc niedostępna"}
+        </Text>
 
-      {isConnected ? (
-        <FlatList
-          data={placesData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.placeItem}
-              onPress={() => navigation.navigate("Details", { place: item })}
-            >
-              <Image source={{ uri: item.image }} style={styles.thumbnail} />
-              <Text style={styles.placeText}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      ) : (
-        <Text style={styles.offlineText}>Przełącz się na tryb online, aby zobaczyć dostępne miejsca.</Text>
-      )}
-    </View>
+        {isConnected ? (
+          <FlatList
+            data={placesData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.placeItem}
+                onPress={() => navigation.navigate("Details", { place: item })}
+              >
+                <Image source={{ uri: item.image }} style={styles.thumbnail} />
+                <Text style={styles.placeText}>{item.name}</Text>
+              </TouchableOpacity>
+            )}
+            contentContainerStyle={styles.listContainer}
+            style={styles.list}
+            showsVerticalScrollIndicator={false} // Ukrywa pasek przewijania
+          />
+        ) : (
+          <Text style={styles.offlineText}>Przełącz się na tryb online, aby zobaczyć dostępne miejsca.</Text>
+        )}
+      </View>
   );
 }
 
@@ -47,7 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: width > 600 ? 40 : 20,
-    minHeight: '100vh',
     backgroundColor: "#f9f9f9",
   },
   header: {
@@ -67,6 +69,12 @@ const styles = StyleSheet.create({
     color: "#888",
     textAlign: "center",
     marginTop: 20,
+  },
+  list: {
+    flex: 1,
+  },
+  listContainer: {
+    paddingBottom: 100, // Zapewnia odstęp na dole listy, aby ostatni element był widoczny
   },
   placeItem: {
     flexDirection: "row",
