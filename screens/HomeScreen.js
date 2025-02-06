@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: width > 600 ? 40 : 20,
+    minHeight: '100vh',
     backgroundColor: "#f9f9f9",
   },
   header: {

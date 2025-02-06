@@ -1,8 +1,21 @@
 const createExpoWebpackConfigAsync = require("@expo/webpack-config");
 const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
+
+  // Ustaw publicPath, aby poprawnie ładować zasoby
+  config.output.publicPath = "/";
+
+  // Kopiowanie plików statycznych z `public/` do katalogu build
+  config.plugins.push(
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "public", to: "" }
+      ],
+    })
+  );
 
   // Dodaj fallbacki dla brakujących modułów Node.js
   config.resolve.fallback = {

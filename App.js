@@ -9,10 +9,10 @@ import MapScreen from "./screens/MapScreen";
 import OfflineScreen from "./screens/OfflineScreen";
 import { AppProvider } from "./contexts/AppContext";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
-import { LogBox } from "react-native";
+import { LogBox, Platform } from "react-native";
 
 LogBox.ignoreLogs(["props.pointerEvents is deprecated"]);
 
@@ -45,6 +45,16 @@ function MainTabs() {
         },
         tabBarActiveTintColor: "#4CAF50",
         tabBarInactiveTintColor: "gray",
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 60,
+          backgroundColor: "#ffffff",
+          borderTopWidth: 1,
+          borderTopColor: "#ccc",
+        },
       })}
     >
       <Tab.Screen name="Strona główna" component={HomeScreen} />
@@ -104,20 +114,27 @@ export default function App() {
   return (
     <AppProvider>
       <SafeAreaProvider>
-        <NavigationContainer>
-          {!isConnected && (
-            <View style={styles.offlineBanner}>
-              <Text style={styles.offlineText}>Tryb offline</Text>
-            </View>
-          )}
-          <AppNavigator />
-        </NavigationContainer>
+        <SafeAreaView style={styles.safeArea}>
+          <NavigationContainer>
+            {!isConnected && (
+              <View style={styles.offlineBanner}>
+                <Text style={styles.offlineText}>Tryb offline</Text>
+              </View>
+            )}
+            <AppNavigator />
+          </NavigationContainer>
+        </SafeAreaView>
       </SafeAreaProvider>
     </AppProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f9f9f9",
+    minHeight: "100vh",
+  },
   offlineBanner: {
     backgroundColor: "#FF6347",
     padding: 10,
