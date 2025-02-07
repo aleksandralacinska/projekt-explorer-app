@@ -41,7 +41,7 @@ export default function MapScreen({ route }) {
       <MapContainer
         center={[coords.lat, coords.lng]}
         zoom={13}
-        style={{ height: height > 700 ? height : 400, width: "100%" }}
+        style={{ height: "100%", width: "100%" }}
       >
         {/* Warstwa mapy OpenStreetMap */}
         <TileLayer
