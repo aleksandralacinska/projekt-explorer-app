@@ -25,18 +25,15 @@ if (Platform.OS === "web") {
 
     let installPrompt = event;
 
-    // Znalezienie kontenera tytułu "Strona główna"
     const headerContainer = document.querySelector("h1");
     if (headerContainer) {
-      // Stworzenie kontenera dla tytułu i przycisku
       const buttonContainer = document.createElement("div");
       buttonContainer.style.display = "flex";
-      buttonContainer.style.justifyContent = "space-between"; // Rozstawia elementy
+      buttonContainer.style.justifyContent = "space-between";
       buttonContainer.style.alignItems = "center";
       buttonContainer.style.width = "100%";
-      buttonContainer.style.padding = "10px 20px"; // Dodatkowy padding dla lepszego wyglądu
+      buttonContainer.style.padding = "10px 20px";
 
-      // Przeniesienie tytułu do nowego kontenera
       headerContainer.parentNode.insertBefore(buttonContainer, headerContainer);
       buttonContainer.appendChild(headerContainer);
 
@@ -50,7 +47,7 @@ if (Platform.OS === "web") {
       installButton.style.borderRadius = "5px";
       installButton.style.cursor = "pointer";
       installButton.style.fontSize = "14px";
-      installButton.style.marginLeft = "auto"; // Zapewnia wyrównanie do prawej
+      installButton.style.marginLeft = "auto";
       installButton.style.display = "inline-block";
 
       // Dodanie przycisku obok tytułu "Strona główna"

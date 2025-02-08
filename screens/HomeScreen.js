@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContainer: {
-    paddingBottom: 100, // Zapewnia odstęp na dole listy, aby ostatni element był widoczny
+    paddingBottom: 100,
   },
   placeItem: {
     flexDirection: "row",
